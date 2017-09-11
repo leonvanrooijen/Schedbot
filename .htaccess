@@ -1,0 +1,4 @@
+Order allow,deny
+<FilesMatch "^(cronjob\.php)?$">
+    Allow from all
+</FilesMatch>
