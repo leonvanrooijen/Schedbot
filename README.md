@@ -1,0 +1,2 @@
+# SchedBot
+A Zermelo Bot
