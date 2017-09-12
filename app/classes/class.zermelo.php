@@ -46,7 +46,7 @@ class Zermelo
 
 	public function getAppointment($start, $end)
 	{
-		$url = "https://" . $this->tenant . ".zportal.nl/api/v2/appointments?user=~me&start=" . $start . "&end=" . $end . "&access_token=" . $this->token;
+		$url = "https://" . $this->tenant . ".zportal.nl/api/v2/appointments?user=~me&start=" . (string) $start . "&end=" . (string) $end . "&access_token=" . $this->token;
 
 		$zermeloResult = file_get_contents($url, false);
 
@@ -68,6 +68,14 @@ class Zermelo
 		}
 
 		return $results;
+	}
+
+	public function getLenghtLessons()
+	{
+		$startSchool = strtotime("today 08:30");
+		$today = $this->getAppointment($startSchool, $startSchool + 10800);
+		print_r($today);
+		return $today[0]["end"] - $today[0]["start"];
 	}
 }
 
