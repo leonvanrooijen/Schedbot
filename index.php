@@ -7,6 +7,6 @@ $zermelo = new Zermelo;
 $zermelo->setToken($token);
 $zermelo->setTenant("gsf");
 echo "<pre>";
-print_r($zermelo->getAppointment("1505197800", "1505219000"));
+echo $zermelo->getLenghtLessons();
 
 ?>
