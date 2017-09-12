@@ -7,11 +7,16 @@
 class Zermelo
 {
 	
-	private $token;
+	private $tenant, $token;
 
-	public function setUser($token)
+	public function setToken($token)
 	{
 		$this->token = $token;
+	}
+
+	public function setTenant($tenant)
+	{
+		$this->tenant = $tenant;
 	}
 
 	public function createToken($tenant, $code)
@@ -37,6 +42,32 @@ class Zermelo
 			return json_decode($result, true)['access_token'];
 		}
 
+	}
+
+	public function getAppointment($start, $end)
+	{
+		$url = "https://" . $this->tenant . ".zportal.nl/api/v2/appointments?user=~me&start=" . $start . "&end=" . $end . "&access_token=" . $this->token;
+
+		$zermeloResult = file_get_contents($url, false);
+
+		$decodedResult = json_decode($zermeloResult, true);
+
+		$results = array("count" => count($decodedResult["response"]["data"]));
+
+		foreach ($decodedResult["response"]["data"] as $appointment) {
+			array_push($results, [
+				"start" => $appointment["start"], 
+				"end" => $appointment["end"], 
+				"subjects" => $appointment["subjects"],
+				"teachers" => $appointment["teachers"],
+				"locations" => $appointment["locations"],
+				"groups" => $appointment["groups"],
+				"valid" => $appointment["valid"],
+				"cancelled" => $appointment["cancelled"]
+				]);
+		}
+
+		return $results;
 	}
 }
 
