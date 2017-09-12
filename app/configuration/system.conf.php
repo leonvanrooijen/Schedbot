@@ -14,8 +14,7 @@ $config = array(
 			),
 
       'auth_data' => array(
-        'zermelo_token'  => 'XXXXXXXXX',
-        'telegram_token' => '399855783:AAF0FjVDIbcqlGQaIt6SXmx-a9FSEDSgMyU'
+        'telegram_token' => '418800539:AAEL8EIbOfvIDTHbMLiib7LgJ7nk6PGFibs'
       ));
 
 ?>
