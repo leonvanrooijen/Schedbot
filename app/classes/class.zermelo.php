@@ -31,10 +31,10 @@ class Zermelo
 		$context  = stream_context_create($options);
 		$result = file_get_contents($url, false, $context);
 		
-		if ($result == false) {
-			echo "False";
+		if (!$result) {
+			return false;
 		}else{
-			return $result;
+			return json_decode($result, true)['access_token'];
 		}
 
 	}
