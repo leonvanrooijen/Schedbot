@@ -18,11 +18,11 @@ function config($key) {
 
 		'telegram_token' => '418800539:AAEL8EIbOfvIDTHbMLiib7LgJ7nk6PGFibs',
 
-		'database_hostname' = 'web0097.zxcs.nl',
-		'database_username' = 'u534p4710_schedbot',
-		'database_password' = 'Z4KR0z4SP',
+		'database_hostname' => 'web0097.zxcs.nl',
+		'database_username' => 'u534p4710_schedbot',
+		'database_password' => 'Z4KR0z4SP',
 
-		'database_name' = 'u534p4710_schedbot'
+		'database_name' => 'u534p4710_schedbot'
 	      );
 
 	if(array_key_exists($key, $config)) {
