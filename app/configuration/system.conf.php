@@ -9,8 +9,8 @@ $config = array(
 		'application_info' => array(
 		'title'     => 'SchedBot',
 		'url'       => 'https://beta.mengelberg.eu',
-        'timezone'  => 'Europe/Amsterdam',
-        'time_data' => array("08:25", "09:15", "10:05", "11:15", "12:05", "13:25", "14:15", "15:05", "15:55")
+		'timezone'  => 'Europe/Amsterdam',
+		'time_data' => array("08:25", "09:15", "10:05", "11:15", "12:05", "13:25", "14:15", "15:05", "15:55")
 			),
 
       'auth_data' => array(
@@ -19,7 +19,7 @@ $config = array(
         'database_hostname' = 'web0097.zxcs.nl',
         'database_username' = 'u534p4710_schedbot',
         'database_password' = 'Z4KR0z4SP',
-        
+
         'database_name' = 'u534p4710_schedbot'
       ));
 
