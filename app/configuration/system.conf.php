@@ -26,7 +26,7 @@ function config($key) {
 	      );
 
 	if(array_key_exists($key, $config)) {
-		return true;
+		return $config[$key];
 	}
 
 	throw new Exception("The coresponding key wasn\'t found in our system.", 1);

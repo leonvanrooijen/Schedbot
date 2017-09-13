@@ -9,6 +9,6 @@ $zermelo->setTenant("gsf");
 echo "<pre>";
 echo $zermelo->getLenghtLessons();
 
-echo config("application_info/title");
+echo config("title");
 
 ?>
