@@ -30,6 +30,6 @@ function config($key) {
 	}
 
 	throw new Exception("The coresponding key wasn\'t found in our system.", 1);
-
+}
 
 ?>
