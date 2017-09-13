@@ -73,8 +73,7 @@ class Zermelo
 	public function getLenghtLessons()
 	{
 		$startSchool = strtotime("today 08:30");
-		$today = $this->getAppointment($startSchool, $startSchool + 10800);
-		print_r($today);
+		$today = $this->getAppointment($startSchool, $startSchool + 28800);
 		return $today[0]["end"] - $today[0]["start"];
 	}
 }
