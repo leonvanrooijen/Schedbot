@@ -2,11 +2,11 @@
 class Database {
 	public $conn;
 	private $hostname, $username, $password, $database;
-	function __construct() {
-		$this->hostname = 'host';
-		$this->username = 'naam';
-		$this->password = 'ww';
-		$this->database = 'db';
+	function __construct($config) {
+		$this->hostname = $config["auth_data"]["database_hostname"];
+		$this->username = $config["auth_data"]["database_username"];
+		$this->password = $config["auth_data"]["database_password"];
+		$this->database = $config["auth_data"]["database_name"];
 
 		try {
     	$this->conn = new PDO("mysql:host=" . $this->hostname . ";dbname=" . $this->database, $this->username, $this->password);
