@@ -10,8 +10,8 @@ $zermelo->setToken($token);
 $zermelo->setTenant("gsf");
 
 //initiate database connection
-$db = new Database;
 
+$user = new User("123456");
 
 
 ?>
