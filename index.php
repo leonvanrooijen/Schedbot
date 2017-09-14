@@ -1,14 +1,17 @@
 <?php  
 
-echo "Je hebt hier niks te zoeken!<br>";
 require 'app/init.php';
+
 $token = "eg9jisibj7g92v2siihs8bsjmf";
+
+//initiate zermelo connection
 $zermelo = new Zermelo;
 $zermelo->setToken($token);
 $zermelo->setTenant("gsf");
-echo "<pre>";
-echo $zermelo->getLenghtLessons();
 
-echo config("title");
+//initiate database connection
+$db = new Database;
+
+
 
 ?>
