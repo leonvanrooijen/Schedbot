@@ -20,6 +20,7 @@ $user->save();
 //Actionhandler testing system.
 
 $action = new NicknameCommand("Noem mij voortaan Noury");
+echo "<pre>";
 var_dump($action);
 
 

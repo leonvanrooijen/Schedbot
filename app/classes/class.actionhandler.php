@@ -10,21 +10,19 @@ class ActionHandler
 	{
 
 		$matches = 0;
-		$text = "";
 
 		foreach ($options as $option) {
-		
+			
+			$arguments = explode('|', $option);
+
 			foreach ($arguments as $argument) {
 
-				$arguments = explode('|', $option);
-	
-				if(strpos($argument, 'contains:')) {
+				if(strpos($argument, 'contains:') == 0) {
 					$argument = str_ireplace("contains:", "", $argument);
-	
+					
 					if(strpos($message, $argument))
 						$matches++;
-						$text =. str_replace($argument, "", $message);
-
+						$message = str_ireplace($argument, "", $message);
 	
 				}		
 	
@@ -34,7 +32,7 @@ class ActionHandler
 		if(!isset($matches) || $matches > 1)
 			return false;
 
-		return $text;
+		return $message;
 
 	}
 

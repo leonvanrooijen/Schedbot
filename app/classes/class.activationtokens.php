@@ -49,6 +49,11 @@ class ActivationTokens
 		return $this->chat_id;
 	}
 
+	public function save()
+	{
+		# code...
+	}
+
 
 }
 

@@ -21,6 +21,7 @@ class NicknameCommand extends ActionHandler
 			echo 'haha het werkt niet!!!';
 		}
 
+		echo parent::validate($this->verify_rules, $this->message);
 
 	}
 }
