@@ -11,7 +11,13 @@ $zermelo->setTenant("gsf");
 
 //initiate database connection
 
-$user = new User("123456");
+$user = new Users("123456");
+
+$user->setTenant("gsf");
+$user->setNickname("Noury");
+$user->setStatus("1");
+
+$user->save();
 
 
 ?>
