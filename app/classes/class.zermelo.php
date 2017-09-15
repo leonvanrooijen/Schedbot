@@ -21,7 +21,6 @@ class Zermelo
 
 	public function createToken($tenant, $code)
 	{
-		$url = "https://" . $tenant . ".zportal.nl/api/v2/oauth/token";
 
 		$data = array('grant_type' => 'authorization_code', 'code' => $code);
 
@@ -33,8 +32,10 @@ class Zermelo
     		)
 		);
 
-		$context  = stream_context_create($options);
-		$result = file_get_contents($url, false, $context);
+		$result = file_get_contents(
+				"https://" . $tenant . ".zportal.nl/api/v2/oauth/token",
+				 false,
+				 stream_context_create($options));
 		
 		if (!$result) {
 			return false;
@@ -48,9 +49,7 @@ class Zermelo
 	{
 		$url = "https://" . $this->tenant . ".zportal.nl/api/v2/appointments?user=~me&start=" . (string) $start . "&end=" . (string) $end . "&access_token=" . $this->token;
 
-		$zermeloResult = file_get_contents($url, false);
-
-		$decodedResult = json_decode($zermeloResult, true);
+		$decodedResult = json_decode(file_get_contents($url, false), true);
 
 		$results = array("count" => count($decodedResult["response"]["data"]));
 
