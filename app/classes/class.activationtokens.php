@@ -14,6 +14,11 @@ class ActivationTokens
 		$this->token = $token;
 	}
 
+	public function getToken()
+	{
+		return $this->token;
+	}
+
 	public function setFormal($formal)
 	{
 		$this->formal = $formal;
@@ -29,7 +34,22 @@ class ActivationTokens
 		$this->chat_id = $chat_id;
 	}
 
-	
+	public function getFormal()
+	{
+		return $this->formal;
+	}
+
+	public function getExpire()
+	{
+		return $this->expires;
+	}
+
+	public function getChatId()
+	{
+		return $this->chat_id;
+	}
+
+
 }
 
 ?>
