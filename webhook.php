@@ -18,6 +18,7 @@ $user = new Users($userInput["message"]["chat"]["id"]);
 $user->setTenant("gsf");
 $user->setClientToken("324323");
 $user->setNickname("gast");
+$user->setStatus("3");
 $user->save();
 
 switch ($user->getStatus()) {
