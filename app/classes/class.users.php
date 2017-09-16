@@ -137,6 +137,12 @@ class Users
 			array($this->chat_id, $this->nickname, $this->rank, $this->status, $this->zermelo_tenant, $this->zermelo_token, $this->formal));
 		return true;
 	}
+
+	public function sendMessage($notification)
+	{ 
+		$message = new Telegram(config('telegram_token'));
+		$message->sendMessage($this->chat_id, $notification);
+	}
 }
 
 
