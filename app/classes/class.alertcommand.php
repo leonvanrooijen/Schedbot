@@ -29,12 +29,17 @@ class AlertCommand extends ActionHandler
 	{
 		$user = new Users($this->chat_id);
 		$db = new Database;
+		
+		if(empty($alert)){
+			$user->sendMessage("<b>Voer een bericht in!</b>", true);
+			return false;
+		}
 
-		$results = $db->getResult("SELECT chat_id FROM users WHERE status >= :status", array(":status"), array(3))
-
+		$results = $db->getResult("SELECT chat_id FROM users WHERE status >= :status", array(":status"), array(3));
+		
 		foreach ($results as $result) {
 			$receiver = new Users($result["chat_id"]);
-			$receiver->sendMessage($alert);
+			$receiver->sendMessage("<b>Systeemmelding:</b> " . $alert, true);
 		}
 	}
 }

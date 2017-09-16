@@ -21,10 +21,15 @@ $user = new Users($userInput["message"]["chat"]["id"]);
 switch ($user->getStatus()) {
 	case '0': //Activatiecode dient te worden ingevoerd
 		new StartCommand($user->getChatId(), $userInput["message"]["text"]);
+		/*$user->setTenant("gsf");
+		$user->setNickname("gast");
+		$user->setStatus("3");
+		$user->setClientToken("testtest");
+		$user->save();*/
 		break;
 	
 	case '1':
-		
+
 		break;
 
 	case '2':
@@ -38,18 +43,13 @@ switch ($user->getStatus()) {
 }
 
 switch ($user->getRank()) {
-	case 2:
-	case 3:
+	case '2':
 		//moderator
 		break;
 	
-	case 3:
+	case '3':
 		//admin
 		new AlertCommand($user->getChatId(), $userInput["message"]["text"]);
-		break;
-
-	default:
-		//user
 		break;
 }
 
