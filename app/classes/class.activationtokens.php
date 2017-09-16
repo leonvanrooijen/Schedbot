@@ -7,16 +7,24 @@ token, formal, expires, chat_id
 class ActivationTokens
 {
 	private $formal, $expires, $chat_id;
-	private $token;
+	private $token, $exists;
 
 	function __construct($token)
 	{
 		$this->token = $token;
+		$db = new Database;
+		$result = $db->getResult("SELECT * FROM activation_tokens WHERE token = :token"
+			, array(":token"), array($this->token));
+
+		if ($result)
+			$this->exists = true;
+		
 	}
 
 	public function getToken()
 	{
-		return $this->token;
+		$db = new Database;
+		$result = $db->getResult("SELECT token FROM activation_tokens WHERE ");
 	}
 
 	public function setFormal($formal)
@@ -52,6 +60,11 @@ class ActivationTokens
 	public function save()
 	{
 		# code...
+	}
+
+	public function check()
+	{
+		return $this->exists;
 	}
 
 

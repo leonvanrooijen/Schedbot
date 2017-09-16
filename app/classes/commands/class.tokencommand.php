@@ -17,21 +17,29 @@ class TokenCommand extends ActionHandler
 	  								"contains:Noem me ",
 									"contains:Noem mij ");
 
-		$name = parent::validate($this->verify_rules, $this->message);
+		$token = parent::validate($this->verify_rules, $this->message);
 
-		if(!$name) 
+		if(!$token) 
 			return false;
 
-		self::proceed($name);
+		self::proceed($token);
 
 
 	}
 
-	protected function proceed($name)
+	protected function proceed($token)
 	{
 		$user = new Users($this->chat_id);
-		$user->setNickname($name);
-		$user->save();
+		$activationToken = new ActivationTokens($token);
+		if ($activationToken->check()) {
+			$activationToken->setChatId($this->chat_id);
+			$user->setFormal($activationToken->getFormal());
+			$user->save();
+			return true;
+		}
+
+		return false;
+		
 	}
 }
 
