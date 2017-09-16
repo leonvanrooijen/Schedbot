@@ -15,7 +15,14 @@ class NicknameCommand extends ActionHandler
 		$this->verify_rules = array("contains:Noem me voortaan ",
 	  								"contains:Noem mij voortaan ",
 	  								"contains:Noem me ",
-									"contains:Noem mij ");
+									"contains:Noem mij ",
+									"contains:Mijn naam is ",
+									"contains:Ik heet ",
+									"contains:Ik ben ",
+									"contains:M'n naam is ",
+									"contains:Mn naam is ",
+									"contains:Me naam is ");
+
 
 		$name = parent::validate($this->verify_rules, $this->message);
 

@@ -19,6 +19,6 @@ $user->save();*/
 
 // new AlertCommand("-246486526", "/alert hoi");
 
-new LockdownCommand("-246486526", "/lockdown Dit is een reden");
+new TokenCommand("-246486526", "sb123456");
 
 ?>

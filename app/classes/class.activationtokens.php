@@ -13,8 +13,14 @@ class ActivationTokens
 	{
 		$this->token = $token;
 		$db = new Database;
-		$tokens = $db->getResult("SELECT * FROM activation_tokens WHERE token = :token"
-			, array(":token"), array($this->token));
+
+
+		/*$user = new Users("-246486526");
+		$user->sendMessage("test");*/
+
+		$tokens = $db->getResult("SELECT * FROM activation_tokens WHERE token = :token",
+			array(":token"), array($this->token));
+
 
 		if ($tokens){
 			$this->exists = true;
@@ -80,7 +86,7 @@ class ActivationTokens
 		
 		$db->performQuery("INSERT INTO activation_tokens
 			(token, formal, expires)
-			VALUES (:token, :formal, :expires)"
+			VALUES (:token, :formal, :expires)",
 			array(":token", ":formal", ":expires"),
 			array($this->token, $this->formal, $this->expires)
 			);

@@ -98,14 +98,12 @@ class Users
 	{
 
 		switch ($this->status) {
-			case '1':
 			case '2':
 			case '3':
 				if(!isset($this->zermelo_tenant))
 				return false;
 				break;
 
-			case '2':
 			case '3':
 				if(!isset($this->zermelo_token))
 				return false;
