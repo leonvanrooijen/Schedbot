@@ -37,4 +37,20 @@ switch ($user->getStatus()) {
 
 }
 
+switch ($user->getRank()) {
+	case 2:
+	case 3:
+		//moderator
+		break;
+	
+	case 3:
+		//admin
+		new AlertCommand($user->getChatId(), $userInput["message"]["text"]);
+		break;
+
+	default:
+		//user
+		break;
+}
+
 
