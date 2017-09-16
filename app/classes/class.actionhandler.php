@@ -36,12 +36,5 @@ class ActionHandler
 
 	}
 
-	protected function activate()
-	{
-		/*
-		*	No code needed, this is activated by the subclass
-		*/
-	}
-
 
 	}
