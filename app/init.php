@@ -9,7 +9,13 @@ ini_set('display_errors', 'On');
 */
 require 'app/configuration/system.conf.php';
 spl_autoload_register(function ($class) {
-    require $_SERVER["DOCUMENT_ROOT"] . "/app/classes/class." . strtolower($class) . ".php";
+
+	if(strpos(strtolower($class), "command") !== false) {
+		
+		require $_SERVER["DOCUMENT_ROOT"] . "/app/classes/commands/class." . strtolower($class) . ".php";
+	} else {
+    	require $_SERVER["DOCUMENT_ROOT"] . "/app/classes/class." . strtolower($class) . ".php";
+	}
 });
 
 ?>

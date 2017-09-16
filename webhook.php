@@ -18,21 +18,21 @@ $user = new Users($userInput["message"]["chat"]["id"]);
 
 
 
-switch ($user->getStatus()) {
+switch ($user->getStatus()) { 
 	case '0': //Activatiecode dient te worden ingevoerd
 		new StartCommand($user->getChatId(), $userInput["message"]["text"]);
-		/*$user->setTenant("gsf");
-		$user->setNickname("gast");
-		$user->setStatus("3");
-		$user->setClientToken("testtest");
-		$user->save();*/
+
+		//Check if activation token is right
+		new TokenCommand($user->getChatId(), $userInput["message"]["text"]);
 		break;
 	
 	case '1':
+	//new ZermeloInstituteCommand //submit de zermelo institute
 
 		break;
 
 	case '2':
+	//new ZermeloTokenCommand //submit de zermelo token EN wissel deze om naar een API key, store de api key
 		
 		break;
 

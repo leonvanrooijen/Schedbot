@@ -17,9 +17,8 @@ $user->setStatus("1");
 
 $user->save();
 
-//Actionhandler testing system.
+// new AlertCommand("-246486526", "/alert hoi");
 
-new AlertCommand("-246486526", "/alert hoi");
-
+new LockdownCommand("-246486526", "/lockdown Dit is een reden");
 
 ?>

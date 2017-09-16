@@ -3,7 +3,7 @@
 /**
 * 
 */
-class NicknameCommand extends ActionHandler
+class TokenCommand extends ActionHandler
 {
 	private $chat_id, $message, $verify_rules;
 	
