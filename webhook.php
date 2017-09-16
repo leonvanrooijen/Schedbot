@@ -15,16 +15,17 @@ $qh->myName();
 */
 
 $user = new Users($userInput["message"]["chat"]["id"]);
-$user->setTenant("gsf");
-$user->setClientToken("324323");
-$user->setNickname("gast");
-$user->save();
+
 
 switch ($user->getStatus()) {
-	case '1': //Activatiecode dient te worden ingevoerd
-		
+	case '0': //Activatiecode dient te worden ingevoerd
+		new StartCommand($user->getChatId(), $userInput["message"]["text"]);
 		break;
 	
+	case '1':
+		
+		break;
+
 	case '2':
 		
 		break;

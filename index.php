@@ -19,6 +19,7 @@ $user->save();
 
 //Actionhandler testing system.
 
+new StartCommand("-246486526", "Noem mij Noury");
 
 
 ?>

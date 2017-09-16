@@ -138,10 +138,10 @@ class Users
 		return true;
 	}
 
-	public function sendMessage($notification)
+	public function sendMessage($notification, $html = false)
 	{ 
 		$message = new Telegram(config('telegram_token'));
-		$message->sendMessage($this->chat_id, $notification);
+		$message->sendMessage($this->chat_id, $notification, $html);
 	}
 }
 
