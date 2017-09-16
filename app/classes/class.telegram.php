@@ -14,10 +14,10 @@ class Telegram
 		$this->token = $token;
 	}
 
-	public function sendMessage($chat_id, $message, $html = false)
+	public function sendMessage($chat_id, $message, $isHtml = false)
 	{
-        if ($html == "html") {
-        	return file_get_contents("https://api.telegram.org/bot" . $this->token . "/sendMessage?chat_id=" . $chat_id . "&text=" . rawurlencode($message) . "&html=html");
+        if ($isHtml) {
+        	return file_get_contents("https://api.telegram.org/bot" . $this->token . "/sendMessage?chat_id=" . $chat_id . "&text=" . rawurlencode($message) . "&parse_mode=HTML");
         }else{
         	return file_get_contents("https://api.telegram.org/bot" . $this->token . "/sendMessage?chat_id=" . $chat_id . "&text=" . rawurlencode($message));
         }

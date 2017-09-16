@@ -29,7 +29,7 @@ class StartCommand extends ActionHandler
 	{
 		$user = new Users($this->chat_id);
 		$user->sendMessage(
-			"<b>Informatie over SchedBOT</b><br><br> Beste gebruiker,", "html");						
+			"<b>Informatie over SchedBOT</b> Beste gebruiker,", true);						
 	}
 
 }
