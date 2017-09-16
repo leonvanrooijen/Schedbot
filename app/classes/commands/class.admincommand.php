@@ -12,7 +12,7 @@ class AdminCommand extends ActionHandler
 
 		$this->chat_id = $chat_id;
 		$this->message = $message;
-		$this->verify_rules = array("contains:/admin");
+		$this->verify_rules = array("contains:/admin ");
 
 		$admin = parent::validate($this->verify_rules, $this->message);
 
@@ -27,26 +27,32 @@ class AdminCommand extends ActionHandler
 
 	protected function proceed($admin)
 	{
-		$user = new Users($this->chat_id);
+		$userMe = new Users($this->chat_id);
+		$victim = new Users(getUserInfo($admin));
 		$db = new Database;
 		
 		if(empty($admin)){
-			$user->sendMessage("<b>Voer een gebruiker in!</b>", true);
+			$userMe->sendMessage("<b>Voer een gebruiker in!</b>", true);
 			return false;
 		}
 
-		if ($user->getAdmin == 1){
+		switch ($victim->getAdmin()) {
+			case 0:
+				$victim->setAdmin(1);
+				$victim->save();
+				$victim->sendMessage("U bent gepromoveerd tot administrator!");
+				$userMe->sendMessage($admin . " is nu een admin. :)");
+				break;
+
+			case 1:
+				$victim->setAdmin(0);
+				$victim->save();
+				$victim->sendMessage("Uw administratieve functie is afgepakt!");
+				$userMe->sendMessage($admin . " is nu geen admin meer.");
+				break;
 			
-			$user->sendMessage($admin . " is nu geen admin meer.");
 		}
-
-		if ($user->getAdmin == 0) {
-			$results = $db->performQuery("UPDATE users SET admin = 1 users WHERE nickname = :nickname", array(":nickname"), array($admin));
-			$user->sendMessage($admin . " is nu een admin. :)");
-		}
-
-		
-		
+	
 	}
 }
 

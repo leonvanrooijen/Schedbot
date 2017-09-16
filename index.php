@@ -20,6 +20,6 @@ $user->save();*/
 // new AlertCommand("-246486526", "/alert hoi");
 
 //new StatsCommand("388542675", "stats");
-new AdminCommand("388542675", "/admin Noury");
+new AdminCommand("388542675", "/admin Egidius Mengelberg");
 
 ?>

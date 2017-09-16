@@ -131,7 +131,7 @@ class Users
 				status = :status,
 				zermelo_tenant = :zermelo_tenant,
 				zermelo_token = :zermelo_token,
-				formal = :formal 
+				formal = :formal, 
 				admin = :admin WHERE  chat_id = :chat_id",
 				array(":nickname", ":rank", ":status", ":zermelo_tenant", ":zermelo_token", ":formal", ":admin", ":chat_id"),
 				array($this->nickname, $this->rank, $this->status,
