@@ -7,24 +7,24 @@ token, formal, expires, chat_id
 class ActivationTokens
 {
 	private $formal, $expires, $chat_id;
-	private $token, $exists;
+	private $token, $exists = false;
 
 	function __construct($token)
 	{
 		$this->token = $token;
 		$db = new Database;
-		$result = $db->getResult("SELECT * FROM activation_tokens WHERE token = :token"
+		$tokens = $db->getResult("SELECT * FROM activation_tokens WHERE token = :token"
 			, array(":token"), array($this->token));
 
-		if ($result)
+		if ($tokens){
 			$this->exists = true;
-		
-	}
+			$this->formal = $tokens[0]["formal"];
+			$this->expires = $tokens[0]["expires"];
+			$this->chat_id = $tokens[0]["chat_id"];
+		}
 
-	public function getToken()
-	{
-		$db = new Database;
-		$result = $db->getResult("SELECT token FROM activation_tokens WHERE ");
+
+		
 	}
 
 	public function setFormal($formal)
@@ -40,6 +40,11 @@ class ActivationTokens
 	public function setChatId($chat_id)
 	{
 		$this->chat_id = $chat_id;
+	}
+
+	public function getToken()
+	{
+		return $this->token;
 	}
 
 	public function getFormal()
@@ -59,17 +64,36 @@ class ActivationTokens
 
 	public function save()
 	{
+
 		$db = new Database;
-		$db->performQuery("UPDATE activation_tokens
-			SET token = :token, formal = :formal, expires = :expires, chat_id = :chat_id
-			WHERE token = :oldtoken",
-			array(":token",":formal",":expires",":chat_id", ":oldtoken"),
-			array($this->token));
+
+		if ($this->exists) {
+			$db->performQuery("UPDATE activation_tokens
+				SET formal = :formal, expires = :expires, chat_id = :chat_id
+				WHERE token = :token",
+				array(":formal",":expires",":chat_id", ":token"),
+				array($this->formal, $this->expires, $this->chat_id, $this->token));
+
+			return true;
+		}
+
+		
+		$db->performQuery("INSERT INTO activation_tokens
+			(token, formal, expires)
+			VALUES (:token, :formal, :expires)"
+			array(":token", ":formal", ":expires"),
+			array($this->token, $this->formal, $this->expires)
+			);
+		
+		return true;
 	}
 
 	public function check()
 	{
-		return $this->exists;
+		if($this->expires > time() && $this->exists)
+			return true;
+
+		return false;
 	}
 
 

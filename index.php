@@ -9,13 +9,13 @@ $zermelo->setTenant("gsf");
 
 
 //User testing system
-$user = new Users("123456");
+/*$user = new Users("123456");
 
 $user->setTenant("gsdf");
 $user->setNickname("Noury");
 $user->setStatus("1");
 
-$user->save();
+$user->save();*/
 
 // new AlertCommand("-246486526", "/alert hoi");
 

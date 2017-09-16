@@ -12,10 +12,7 @@ class TokenCommand extends ActionHandler
 
 		$this->chat_id = $chat_id;
 		$this->message = $message;
-		$this->verify_rules = array("contains:Noem me voortaan ",
-	  								"contains:Noem mij voortaan ",
-	  								"contains:Noem me ",
-									"contains:Noem mij ");
+		$this->verify_rules = array();
 
 		$token = parent::validate($this->verify_rules, $this->message);
 
@@ -31,10 +28,16 @@ class TokenCommand extends ActionHandler
 	{
 		$user = new Users($this->chat_id);
 		$activationToken = new ActivationTokens($token);
+		
 		if ($activationToken->check()) {
+
 			$activationToken->setChatId($this->chat_id);
+			$activationToken->save();
+
 			$user->setFormal($activationToken->getFormal());
+			$user->setStatus("1");
 			$user->save();
+
 			return true;
 		}
 
