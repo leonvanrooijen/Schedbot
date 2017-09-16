@@ -9,6 +9,7 @@ class ActionHandler
 	public static function validate($options, $message)
 	{
 
+		$originalMessage = $message;
 		$matches = 0;
 
 		foreach ($options as $option) {
@@ -29,7 +30,7 @@ class ActionHandler
 			}
 		}
 
-		if(!isset($matches) || $matches > 1)
+		if($originalMessage == $message)
 			return false;
 
 		return $message;

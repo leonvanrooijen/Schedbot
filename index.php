@@ -19,7 +19,7 @@ $user->save();
 
 //Actionhandler testing system.
 
-new NicknameCommand("123456", "noem mij Gieter");
+new StartCommand("-246486526", "Noem mij Noury");
 
 
 ?>

@@ -19,9 +19,8 @@ class NicknameCommand extends ActionHandler
 
 		$name = parent::validate($this->verify_rules, $this->message);
 
-		if(!is_string($name)) {
+		if(!$name) 
 			return false;
-		}
 
 		self::proceed($name);
 
@@ -33,24 +32,6 @@ class NicknameCommand extends ActionHandler
 		$user = new Users($this->chat_id);
 		$user->setNickname($name);
 		$user->save();
-
-		switch (rand(1, 4)) {
-			case 1:
-				$user->sendMessage("Ik heb je nickname aangepast naar '" . $name . "'.");
-				break;
-			
-			case 2:
-				$user->sendMessage("Oké, ik noem je vanaf nu '" . $name . "'.");
-				break;
-
-			case 3:
-				$user->sendMessage("Vanaf nu noem ik je '" . $name . "'.");
-				break;	
-
-			case 4:
-				$user->sendMessage("'" . $name . "' is jouw nieuwe nickname!");
-				break;								
-		}
 	}
 }
 
