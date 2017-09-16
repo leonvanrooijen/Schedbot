@@ -89,6 +89,11 @@ class Users
 		return $this->formal;
 	}
 
+	public function getChatId()
+	{
+		return $this->chat_id;
+	}
+
 	public function save()
 	{
 
