@@ -19,6 +19,7 @@ $user->save();*/
 
 // new AlertCommand("-246486526", "/alert hoi");
 
-new TokenCommand("-246486526", "sb123456");
+//new StatsCommand("388542675", "stats");
+new AdminCommand("388542675", "/admin Noury");
 
 ?>

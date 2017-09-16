@@ -18,4 +18,19 @@ spl_autoload_register(function ($class) {
 	}
 });
 
+
+function checkLockdown()
+{
+	$db = new Database;
+	$lockdownStatus = $db->getResult("SELECT value FROM settings WHERE setting = :setting",
+		array(":setting"), array("lockdown"));
+
+	if ($lockdownStatus[0]["value"] == 1) {
+		return true;
+	}
+
+	return false;
+}
+
+
 ?>

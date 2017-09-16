@@ -6,7 +6,7 @@
 class Users
 {
 	
-	private $chat_id, $nickname, $rank = 1, $status = "0", $zermelo_tenant, $zermelo_token, $formal = 1;
+	private $chat_id, $nickname, $rank = 1, $status = "0", $zermelo_tenant, $zermelo_token, $formal = 1, $admin = 0;
 	
 	private $userExists = false;
 
@@ -25,6 +25,7 @@ class Users
 			$this->zermelo_tenant = $result[0]["zermelo_tenant"];
 			$this->zermelo_token = $result[0]["zermelo_token"];
 			$this->formal = $result[0]["formal"];
+			$this->admin = $result[0]["admin"];
 
 		}
 	}
@@ -57,6 +58,11 @@ class Users
 	public function setFormal($formal)
 	{
 		$this->formal = $formal;
+	}
+
+	public function setAdmin($admin)
+	{
+		$this->admin = $admin;
 	}
 
 	public function getNickname()
@@ -94,6 +100,11 @@ class Users
 		return $this->chat_id;
 	}
 
+	public function getAdmin()
+	{
+		return $this->admin;
+	}
+
 	public function save()
 	{
 
@@ -120,19 +131,20 @@ class Users
 				status = :status,
 				zermelo_tenant = :zermelo_tenant,
 				zermelo_token = :zermelo_token,
-				formal = :formal WHERE  chat_id = :chat_id",
-				array(":nickname", ":rank", ":status", ":zermelo_tenant", ":zermelo_token", ":formal", ":chat_id"),
+				formal = :formal 
+				admin = :admin WHERE  chat_id = :chat_id",
+				array(":nickname", ":rank", ":status", ":zermelo_tenant", ":zermelo_token", ":formal", ":admin", ":chat_id"),
 				array($this->nickname, $this->rank, $this->status,
-				$this->zermelo_tenant, $this->zermelo_token, $this->formal, $this->chat_id));
+				$this->zermelo_tenant, $this->zermelo_token, $this->formal, $this->admin, $this->chat_id));
 			return true;
 		}
 
 		
 		$db->performQuery("INSERT INTO users
-			(chat_id, nickname, rank, status, zermelo_tenant, zermelo_token, formal) VALUES
-			(:chat_id, :nickname, :rank, :status, :zermelo_tenant, :zermelo_token, :formal)",
-			array(":chat_id", ":nickname", ":rank", ":status", ":zermelo_tenant", ":zermelo_token", ":formal"),
-			array($this->chat_id, $this->nickname, $this->rank, $this->status, $this->zermelo_tenant, $this->zermelo_token, $this->formal));
+			(chat_id, nickname, rank, status, zermelo_tenant, zermelo_token, formal, admin) VALUES
+			(:chat_id, :nickname, :rank, :status, :zermelo_tenant, :zermelo_token, :formal, :admin)",
+			array(":chat_id", ":nickname", ":rank", ":status", ":zermelo_tenant", ":zermelo_token", ":formal", ":admin"),
+			array($this->chat_id, $this->nickname, $this->rank, $this->status, $this->zermelo_tenant, $this->zermelo_token, $this->formal, $this->admin));
 		return true;
 	}
 

@@ -19,6 +19,23 @@ class Zermelo
 		$this->tenant = $tenant;
 	}
 
+	public function checkTenant($tenant)
+	{
+		if (strrpos($tenant, "."))
+			return false;
+
+		$site = file_get_contents("https://" . $tenant . ".zportal.nl");
+
+		if (!$site) 
+			return false;
+
+		if (strrpos(strtolower($site), "verkeerd"))
+			return false;
+
+		return true;
+
+	}
+
 	public function createToken($tenant, $code)
 	{
 
