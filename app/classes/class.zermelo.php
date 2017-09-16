@@ -50,7 +50,7 @@ class Zermelo
 		);
 
 		$result = file_get_contents(
-				"https://" . $tenant . ".zportal.nl/api/v2/oauth/token",
+				"https://" . $tenant . ".zportal.nl/api/v3/oauth/token",
 				 false,
 				 stream_context_create($options));
 		
@@ -64,7 +64,7 @@ class Zermelo
 
 	public function getAppointment($start, $end)
 	{
-		$url = "https://" . $this->tenant . ".zportal.nl/api/v2/appointments?user=~me&start=" . (string) $start . "&end=" . (string) $end . "&access_token=" . $this->token;
+		$url = "https://" . $this->tenant . ".zportal.nl/api/v3/appointments?user=~me&start=" . (string) $start . "&end=" . (string) $end . "&access_token=" . $this->token;
 
 		$decodedResult = json_decode(file_get_contents($url, false), true);
 
