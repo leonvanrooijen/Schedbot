@@ -5,14 +5,25 @@ date_default_timezone_set('Europe/Amsterdam');
 /*
  * Op bepaalde tijdstippen wordt er een actie uitgevoerd.
 */
+//voor alle actieve users
+foreach (getUsers() as $user) {
+  //maak user en rooster op
+  $user = new Users($user["chat_id"]);
+  $schedule = new Schedule($user["chat_id"], (ceil(time()/480)*480));
+  
+  foreach ($schedule->get() as $appointment) {
+    $user->sendMessage("Je hebt zometeen " . $appointment["subject"] . " in lokaal " . $appointment["location"]);
+  }
+
+}
 
 switch (date("G:i")) {
 
-	case '0:00':
-		//Database clean-up, get all the schedules
-		//Check if notification needs to be send
-		break;
-}
+  case '0:00':
+    clearSchedules();
+    //Check if notification needs to be send
+    break;
+  }
 
 
 

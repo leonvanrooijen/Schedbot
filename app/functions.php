@@ -22,4 +22,20 @@ function getUserInfo($name)
 	return $userInfo[0]["chat_id"];
 }
 
+function getUsers()
+{
+	$db = new Database;
+
+	$users = $db->getResult("SELECT * FROM users WHERE status = 3", array(), array());
+
+	return $users;
+}
+
+function clearSchedules()
+{
+	$db = new Database;
+
+	$db->performQuery("TRUNCATE TABLE actions", array(), array());
+}
+
 ?>
