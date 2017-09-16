@@ -59,7 +59,12 @@ class ActivationTokens
 
 	public function save()
 	{
-		# code...
+		$db = new Database;
+		$db->performQuery("UPDATE activation_tokens
+			SET token = :token, formal = :formal, expires = :expires, chat_id = :chat_id
+			WHERE token = :oldtoken",
+			array(":token",":formal",":expires",":chat_id", ":oldtoken"),
+			array($this->token));
 	}
 
 	public function check()
