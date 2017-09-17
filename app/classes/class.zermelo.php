@@ -1,30 +1,88 @@
-<?php  
+<?php
 
-
-/**
-* This class handles Zermelo requests
+/*
+* Zermelo class to retrieve the schedules
 */
 class Zermelo
 {
+	private $institute, $token, $start, $end, $lastModified = 0;
 	
-	private $tenant, $token;
+	public function __construct($institute)
+	{
+		$this->institute = $institute;
+	}
+
+	public function setTimestamps($start, $end)
+	{
+		$this->start = $start;
+		$this->end = $end;
+	}
+
+	public function setLastModified($lastModified)
+	{
+		$this->lastModified = $lastModified;
+	}
+
+	public function fetch()
+	{
+
+		$api_url = "https://" . $this->institute . ".zportal.nl/api/v3/appointments?user=~me&start=" . (string) $this->start . "&end=" . (string) $this->end . "&access_token=" . $this->token;
+
+		if(empty($this->token))
+			return false;
+
+		if($this->lastModified !== 0)
+		{
+			$api_url .= "&lastModified=" . (string) $this->lastModified; 
+		}
+
+		$schedule_data = json_decode(file_get_contents($api_url, false), true);
+
+		if(!$schedule_data) {
+			return false;
+		}
+
+		return self::sort($schedule_data["response"]);
+
+	}
+
+	protected function sort($schedule_data)
+	{
+		if($schedule_data["totalRows"] == 0)
+			return array();
+
+		$timestamps = array();
+		$schedules_sorted = array();
+
+		$i = 0;
+		foreach($schedule_data["data"] as $appointment) {
+			$timestamps[$i] = $appointment["start"];
+			$i++;
+		}
+		
+		asort($timestamps);
+
+		$x = 0;
+		foreach ($timestamps as $number => $timestamp) {
+			$schedules_sorted[$x] = $schedule_data["data"][$number]; 
+			$x++;
+		}
+
+		return $schedules_sorted;
+
+	}
 
 	public function setToken($token)
 	{
 		$this->token = $token;
 	}
 
-	public function setTenant($tenant)
+	public function checkTenant()
 	{
-		$this->tenant = $tenant;
-	}
-
-	public function checkTenant($tenant)
-	{
-		if (strrpos($tenant, "."))
+		if (strrpos($this->institute, "."))
 			return false;
 
-		$site = file_get_contents("https://" . $tenant . ".zportal.nl");
+		$site = file_get_contents("https://" . $this->institute . ".zportal.nl");
 
 		if (!$site) 
 			return false;
@@ -36,7 +94,7 @@ class Zermelo
 
 	}
 
-	public function createToken($tenant, $code)
+	public function createToken($code)
 	{
 
 		$data = array('grant_type' => 'authorization_code', 'code' => $code);
@@ -49,49 +107,18 @@ class Zermelo
     		)
 		);
 
-		$result = file_get_contents(
-				"https://" . $tenant . ".zportal.nl/api/v3/oauth/token",
+		$token = file_get_contents(
+				"https://" . $this->institute . ".zportal.nl/api/v3/oauth/token",
 				 false,
 				 stream_context_create($options));
 		
-		if (!$result) {
+		if (!$token)
 			return false;
-		}else{
-			return json_decode($result, true)['access_token'];
-		}
+
+		return json_decode($token, true)['access_token'];
+		
 
 	}
 
-	public function getAppointment($start, $end)
-	{
-		$url = "https://" . $this->tenant . ".zportal.nl/api/v3/appointments?user=~me&start=" . (string) $start . "&end=" . (string) $end . "&access_token=" . $this->token;
 
-		$decodedResult = json_decode(file_get_contents($url, false), true);
-
-		$results = array("count" => count($decodedResult["response"]["data"]));
-
-		foreach ($decodedResult["response"]["data"] as $appointment) {
-			array_push($results, [
-				"start" => $appointment["start"], 
-				"end" => $appointment["end"], 
-				"subjects" => $appointment["subjects"],
-				"teachers" => $appointment["teachers"],
-				"locations" => $appointment["locations"],
-				"groups" => $appointment["groups"],
-				"valid" => $appointment["valid"],
-				"cancelled" => $appointment["cancelled"]
-				]);
-		}
-
-		return $results;
-	}
-
-	public function getLenghtLessons()
-	{
-		$startSchool = strtotime("today 08:30");
-		$today = $this->getAppointment($startSchool, $startSchool + 28800);
-		return $today[0]["end"] - $today[0]["start"];
-	}
 }
-
-?>

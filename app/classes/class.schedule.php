@@ -6,7 +6,7 @@
 class Schedule
 {
 	private $chat_id, $lesson_time;
-	private $last_updated, $location, $subject, $teacher, $group, $cancelled, $valid;
+	private $last_updated, $location, $subject, $teacher, $classgroup, $cancelled, $valid;
 	
 	function __construct($chat_id, $lesson_time)
 	{
@@ -31,20 +31,20 @@ class Schedule
 		$db = new Database;
 
 		$db->performQuery("INSERT INTO actions
-			(chat_id, lesson_time, last_updated, location, subject, teacher, group, cancelled, valid)
+			(chat_id, lesson_time, last_updated, location, subject, teacher, classgroup, cancelled, valid)
 			VALUES 
 			(:chat_id, :lesson_time, :last_updated, 
 			:location, :subject, :teacher, 
-			:group, :cancelled, :valid)",
+			:classgroup, :cancelled, :valid)",
 
 			array(":chat_id", ":lesson_time", ":last_updated", 
 				":location", ":subject", ":teacher", 
-				":group", ":cancelled", ":valid"),
+				":classgroup", ":cancelled", ":valid"),
 
 			array($this->chat_id, $this->lesson_time, 
 				$this->last_updated, $this->location, 
 				$this->subject, $this->teacher, 
-				$this->group, $this->cancelled, $this->valid));
+				$this->classgroup, $this->cancelled, $this->valid));
 	}
 
 	public function delete()
@@ -78,9 +78,9 @@ class Schedule
 		return $this->teacher;
 	}
 
-	public function getGroup()
+	public function getClassGroup()
 	{
-		return $this->group;
+		return $this->classgroup;
 	}
 
 	public function getCancelled()
@@ -113,9 +113,9 @@ class Schedule
 		$this->teacher = $teacher;
 	}
 
-	public function setGroup($group)
+	public function setClassgroup($classgroup)
 	{
-		$this->group = $group;
+		$this->classgroup = $classgroup;
 	}
 
 	public function setCancelled($cancelled)

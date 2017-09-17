@@ -24,9 +24,9 @@ class ZermeloInstituteCommand extends ActionHandler
 	protected function proceed($institute)
 	{
 		$user = new Users($this->chat_id);
-		$zermelo = new Zermelo;
+		$zermelo = new Zermelo(strtolower($institute));
 
-		if ($zermelo->checkTenant(strtolower($institute))) {
+		if ($zermelo->checkTenant()) {
 
 			$user->setTenant(strtolower($institute));
 			$user->setStatus("2");

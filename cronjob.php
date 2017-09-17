@@ -19,13 +19,14 @@ foreach (getUsers() as $user) {
   $vakkenaantal = count($schedule->get());
 
   foreach ($schedule->get() as $appointment) {
+
     switch ($i) {
-      case $vakkenaantal - 1:
-        $vakken .= " of " . $appointment["subject"] . " in lokaal " . $appointment["location"];
-        break;
-      
       case 0:
         $vakken .= $appointment["subject"] . " in lokaal " . $appointment["location"];
+        break;
+
+      case $vakkenaantal - 1:
+        $vakken .= " of " . $appointment["subject"] . " in lokaal " . $appointment["location"];
         break;
 
       default:
@@ -33,44 +34,67 @@ foreach (getUsers() as $user) {
         break;
     }
 
+
     $i++;
 
   }
 
-  echo $message . $vakken . "!<br />";
+  if($i > 0)
+    $receiver->sendMessage($message . $vakken . ".");
 
 }
 
 
-switch ('0:00') {
+switch (time("G:i")) {
 
   case '0:00':
     clearSchedules();
-    //add every schedule to the database
-    foreach (getUsers() as $person) {
-      //for every user get first appointment and add to DB
-      $user = new Users($person["chat_id"]);
-      //init zermelo class
-      $zermelo = new Zermelo;
-      $zermelo->setTenant($user->getTenant());
-      $zermelo->setToken($user->getClientToken());
+    
+    foreach (getUsers() as $user) {
+    
+      $receiver = new Users($user["chat_id"]);
+
+      $schedule = new Zermelo($receiver->getTenant());
+      $schedule->setToken($receiver->getClientToken());
+      $schedule->setTimestamps((floor(time()/60)*60), ((floor(time()/60)*60)+86400));
+      $appointments = $schedule->fetch();
+
+      foreach ($appointments as $appointment) {
+
+        echo '<pre>';
+        print_r($appointment);
+
+        $action = new Schedule($user["chat_id"], $appointment["start"]);
+        $action->setLastUpdated(time());
+        $action->setLocation($appointment["locations"][0]);
+        $action->setSubject($appointment["subjects"][0]);
+        $action->setTeacher($appointment["teachers"][0]);
+        $action->setClassGroup($appointment["groups"][0]);
+
+        $action->setCancelled($appointment["cancelled"]);
+        $action->setValid($appointment["valid"]);
+        $action->add();
+      }
+
+
+    /*
 
       $appointment = $zermelo->getAppointment(time(), time() + 86400);
       
-      $schedule = new Schedule($person["chat_id"], $appointment[0]["start"]);
+      $action = new action($person["chat_id"], $appointment[0]["start"]);
       
       echo '<pre>';
       print_r($appointment);
 
-      $schedule->setLastUpdated(time());
-      $schedule->setLocation($appointment[0]["locations"][0]);
-      $schedule->setSubject($appointment[0]["subjects"][0]);
-      $schedule->setTeacher($appointment[0]["teachers"][0]);
-      $schedule->setGroup($appointment[0]["groups"][0]);
-      $schedule->setCancelled($appointment[0]["cancelled"]);
-      $schedule->setValid($appointment[0]["valid"]);
+      $action->setLastUpdated(time());
+      $action->setLocation($appointment[0]["locations"][0]);
+      $action->setSubject($appointment[0]["subjects"][0]);
+      $action->setTeacher($appointment[0]["teachers"][0]);
+      $action->setGroup($appointment[0]["groups"][0]);
+      $action->setCancelled($appointment[0]["cancelled"]);
+      $action->setValid($appointment[0]["valid"]);
 
-      $schedule->add();
+      $action->add();*/
     }
     //Check if notification needs to be send
     break;

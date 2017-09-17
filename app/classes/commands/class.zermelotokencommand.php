@@ -24,11 +24,11 @@ class ZermeloTokenCommand extends ActionHandler
 	protected function proceed($token)
 	{
 		$user = new Users($this->chat_id);
-		$zermelo = new Zermelo;
+		$zermelo = new Zermelo($user->getTenant());
 
 		$token = str_replace(" ", "", $token);
 
-		if ($authCode = $zermelo->createToken($user->getTenant(), $token)) {
+		if ($authCode = $zermelo->createToken($token)) {
 			
 			$user->setClientToken($authCode);
 			$user->setStatus("3");
