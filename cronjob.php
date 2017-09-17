@@ -41,10 +41,34 @@ foreach (getUsers() as $user) {
 
 }
 
+
 switch (date("G:i")) {
 
   case '0:00':
     clearSchedules();
+    //add every schedule to the database
+    foreach (getUsers() as $person) {
+      //for every user get first appointment and add to DB
+      $user = new Users($person["chat_id"]);
+      //init zermelo class
+      $zermelo = new Zermelo;
+      $zermelo->setTenant($user->getTenant());
+      $zermelo->setToken($user->getClientToken());
+
+      $appointment = $zermelo->getAppointment(time(), time() + 86400);
+      
+      $schedule = new Schedule($user["chat_id"], $appointment[0]["start"]);
+      
+      $schedule->setLastUpdated(time());
+      $schedule->setLocation($appointment[0]["locations"]);
+      $schedule->setSubject($appointment[0]["subjects"]);
+      $schedule->setTeacher($appointment[0]["teachers"]);
+      $schedule->setGroup($appointment[0]["groups"]);
+      $schedule->setCancelled($appointment[0]["cancelled"]);
+      $schedule->setValid($appointment[0]["valid"]);
+
+      $schedule->add();
+    }
     //Check if notification needs to be send
     break;
   }

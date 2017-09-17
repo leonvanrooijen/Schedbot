@@ -6,7 +6,7 @@
 class Schedule
 {
 	private $chat_id, $lesson_time;
-	private $last_updated, $location, $subject, $teacher, $group, $cancelled;
+	private $last_updated, $location, $subject, $teacher, $group, $cancelled, $valid;
 	
 	function __construct($chat_id, $lesson_time)
 	{
@@ -31,20 +31,20 @@ class Schedule
 		$db = new Database;
 
 		$db->performQuery("INSERT INTO actions
-			(chat_id, lesson_time, last_updated, location, subject, teacher, group, cancelled)
+			(chat_id, lesson_time, last_updated, location, subject, teacher, group, cancelled, valid)
 			VALUES 
 			(:chat_id, :lesson_time, :last_updated, 
 			:location, :subject, :teacher, 
-			:group, :cancelled)",
+			:group, :cancelled, :valid)",
 
 			array(":chat_id", ":lesson_time", ":last_updated", 
 				":location", ":subject", ":teacher", 
-				":group", ":cancelled"),
+				":group", ":cancelled", ":valid"),
 
 			array($this->chat_id, $this->lesson_time, 
 				$this->last_updated, $this->location, 
 				$this->subject, $this->teacher, 
-				$this->group, $this->cancelled));
+				$this->group, $this->cancelled, $this->valid));
 	}
 
 	public function delete()
@@ -88,6 +88,11 @@ class Schedule
 		return $this->cancelled;
 	}
 
+	public function getValid()
+	{
+		return $this->valid;
+	}
+
 	public function setLastUpdated($last_updated)
 	{
 		$this->last_updated = $last_updated;
@@ -116,6 +121,11 @@ class Schedule
 	public function setCancelled($cancelled)
 	{
 		$this->cancelled = $cancelled;
+	}
+
+	public function setValid($valid)
+	{
+		$this->valid = $valid;
 	}
 }
 
