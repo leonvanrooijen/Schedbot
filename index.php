@@ -3,23 +3,10 @@
 require 'app/init.php';
 
 //Zermelo testing system
-$zermelo = new Zermelo;
-$zermelo->setToken("eg9jisibj7g92v2siihs8bsjmf");
-$zermelo->setTenant("gsf");
+$r = new Zermelot("gsf");
+$r->setToken("chg0ire4bf9m6ort5ld85d5v8h");
+$r->setTimestamps(1505685600, 1505772000);
+$r->fetch();
 
-
-//User testing system
-/*$user = new Users("123456");
-
-$user->setTenant("gsdf");
-$user->setNickname("Noury");
-$user->setStatus("1");
-
-$user->save();*/
-
-// new AlertCommand("-246486526", "/alert hoi");
-
-//new StatsCommand("388542675", "stats");
-new AdminCommand("388542675", "/admin Egidius Mengelberg");
 
 ?>

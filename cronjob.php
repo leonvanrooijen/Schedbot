@@ -42,7 +42,7 @@ foreach (getUsers() as $user) {
 }
 
 
-switch (date("G:i")) {
+switch ('0:00') {
 
   case '0:00':
     clearSchedules();
@@ -57,13 +57,16 @@ switch (date("G:i")) {
 
       $appointment = $zermelo->getAppointment(time(), time() + 86400);
       
-      $schedule = new Schedule($user["chat_id"], $appointment[0]["start"]);
+      $schedule = new Schedule($person["chat_id"], $appointment[0]["start"]);
       
+      echo '<pre>';
+      print_r($appointment);
+
       $schedule->setLastUpdated(time());
-      $schedule->setLocation($appointment[0]["locations"]);
-      $schedule->setSubject($appointment[0]["subjects"]);
-      $schedule->setTeacher($appointment[0]["teachers"]);
-      $schedule->setGroup($appointment[0]["groups"]);
+      $schedule->setLocation($appointment[0]["locations"][0]);
+      $schedule->setSubject($appointment[0]["subjects"][0]);
+      $schedule->setTeacher($appointment[0]["teachers"][0]);
+      $schedule->setGroup($appointment[0]["groups"][0]);
       $schedule->setCancelled($appointment[0]["cancelled"]);
       $schedule->setValid($appointment[0]["valid"]);
 
