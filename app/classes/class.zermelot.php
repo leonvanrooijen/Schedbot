@@ -18,6 +18,11 @@ class Zermelot
 		$this->end = $end;
 	}
 
+	public function setLastModified($lastModified)
+	{
+		$this->lastModified = $lastModified;
+	}
+
 	public function fetch()
 	{
 
@@ -28,7 +33,7 @@ class Zermelot
 
 		if($this->lastModified !== 0)
 		{
-			$api_url .= "&lastModified=" . $this->lastModified; 
+			$api_url .= "&lastModified=" . (string) $this->lastModified; 
 		}
 
 		$schedule_data = json_decode(file_get_contents($api_url, false), true);
@@ -47,19 +52,23 @@ class Zermelot
 			return array();
 
 		$timestamps = array();
-		$keys = array();
+		$schedules_sorted = array();
 
 		$i = 0;
 		foreach($schedule_data["data"] as $appointment) {
 			$timestamps[$i] = $appointment["start"];
 			$i++;
 		}
+		
 		asort($timestamps);
-		print_r($timestamps);
 
-		foreach($timestamps as $timestamp) {
-
+		$x = 0;
+		foreach ($timestamps as $number => $timestamp) {
+			$schedules_sorted[$x] = $schedule_data["data"][$number]; 
+			$x++;
 		}
+
+		return $schedules_sorted;
 
 	}
 
@@ -68,12 +77,12 @@ class Zermelot
 		$this->token = $token;
 	}
 
-	public function checkTenant($tenant)
+	public function checkTenant()
 	{
-		if (strrpos($tenant, "."))
+		if (strrpos($this->institute, "."))
 			return false;
 
-		$site = file_get_contents("https://" . $tenant . ".zportal.nl");
+		$site = file_get_contents("https://" . $this->institute . ".zportal.nl");
 
 		if (!$site) 
 			return false;
@@ -85,7 +94,7 @@ class Zermelot
 
 	}
 
-	public function createToken($tenant, $code)
+	public function createToken($code)
 	{
 
 		$data = array('grant_type' => 'authorization_code', 'code' => $code);
@@ -99,7 +108,7 @@ class Zermelot
 		);
 
 		$token = file_get_contents(
-				"https://" . $tenant . ".zportal.nl/api/v3/oauth/token",
+				"https://" . $this->institute . ".zportal.nl/api/v3/oauth/token",
 				 false,
 				 stream_context_create($options));
 		
