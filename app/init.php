@@ -8,7 +8,6 @@ ini_set('display_errors', 'On');
  * Initialize all the requested classes and the configuration
 */
 require 'app/configuration/system.conf.php';
-require 'app/functions.php';
 spl_autoload_register(function ($class) {
 
 	if(strpos(strtolower($class), "command") !== false) {
@@ -19,6 +18,7 @@ spl_autoload_register(function ($class) {
 	}
 });
 
+require 'app/functions.php';
 
 
 ?>

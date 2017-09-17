@@ -21,7 +21,7 @@ class Schedule
 		$actions = $db->getResult("SELECT * FROM actions WHERE chat_id = :chat_id 
 			AND lesson_time = :lesson_time",
 			array(":chat_id", "lesson_time"),
-			array($this->chat_id, $this->lesson_time);
+			array($this->chat_id, $this->lesson_time));
 
 		return $actions;
 	}

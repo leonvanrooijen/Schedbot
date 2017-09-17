@@ -52,6 +52,8 @@ class AdminCommand extends ActionHandler
 				break;
 			
 		}
+
+		return true;
 	
 	}
 }

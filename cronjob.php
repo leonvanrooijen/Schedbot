@@ -8,12 +8,36 @@ date_default_timezone_set('Europe/Amsterdam');
 //voor alle actieve users
 foreach (getUsers() as $user) {
   //maak user en rooster op
-  $user = new Users($user["chat_id"]);
-  $schedule = new Schedule($user["chat_id"], (ceil(time()/480)*480));
+  $receiver = new Users($user["chat_id"]);
+  echo $receiver->getNickname() . "(" . (floor(time()/60)*60+480) ."): ";
+  $schedule = new Schedule($user["chat_id"], (floor(time()/60)*60+480));
   
+
+  $message = "Hey " . $receiver->getNickname() . ", je hebt zometeen ";
+  $vakken = "";
+  $i = 0;
+  $vakkenaantal = count($schedule->get());
+
   foreach ($schedule->get() as $appointment) {
-    $user->sendMessage("Je hebt zometeen " . $appointment["subject"] . " in lokaal " . $appointment["location"]);
+    switch ($i) {
+      case $vakkenaantal - 1:
+        $vakken .= " of " . $appointment["subject"] . " in lokaal " . $appointment["location"];
+        break;
+      
+      case 0:
+        $vakken .= $appointment["subject"] . " in lokaal " . $appointment["location"];
+        break;
+
+      default:
+        $vakken .= ", " . $appointment["subject"] . " in lokaal " . $appointment["location"];
+        break;
+    }
+
+    $i++;
+
   }
+
+  echo $message . $vakken . "!<br />";
 
 }
 
