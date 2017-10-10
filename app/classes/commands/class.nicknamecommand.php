@@ -21,6 +21,8 @@ class NicknameCommand extends ActionHandler
 									"contains:Ik ben ",
 									"contains:M'n naam is ",
 									"contains:Mn naam is ",
+									"contains:Spreek me aan met ",
+									"contains:Spreek mij aan met ",
 									"contains:Me naam is ");
 
 

@@ -18,7 +18,7 @@ spl_autoload_register(function ($class) {
 	}
 });
 
-require 'app/functions.php';
+require 'app/helpers.php';
 
 
 ?>

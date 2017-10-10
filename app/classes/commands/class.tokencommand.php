@@ -34,7 +34,7 @@ class TokenCommand extends ActionHandler
 
 			if(!empty($activationToken->getChatId()))
 			{
-				$user->sendMessage("Deze activatiecode is al verzilverd.");
+				$user->sendMessage("Deze activatiecode is al gebruikt.");
 				return false;
 			}
 
@@ -46,6 +46,7 @@ class TokenCommand extends ActionHandler
 			$user->setFormal($activationToken->getFormal());
 			$user->setStatus("1");
 			$user->setNickname("naamloos");
+			$user->setComment($activationToken->getComment());
 			$user->save();
 
 			$user->sendMessage("Perfect! Je activatiecode is succesvol verzilverd. Wat is de afkorting van jouw school op zermelo? Bijvoorbeeld: gsf (tip: afkorting.zportal.nl)");
